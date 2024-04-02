@@ -87,12 +87,12 @@ IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff(_st_Assy_SignOff) = TR
 END_IF
 //**********************************************************************
 
-//IF bMsg THEN
-//	ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
-//				msgFmtStr := 'Hello %s',
-//				strArg	:= 'world');
-//	bMsg := FALSE;
-//END_IF]]></ST>
+IF bMsg THEN
+	ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
+				msgFmtStr := 'Hello %s',
+				strArg	:= 'world');
+	bMsg := FALSE;
+END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
