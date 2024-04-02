@@ -1,0 +1,583 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="AmeClient" Id="{42cbfb19-915f-490d-8a20-4bfe1117c9a0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK AmeClient
+
+VAR_OUTPUT
+	bError	:BOOL;
+END_VAR
+
+VAR		// FB_Init
+	_sType			:STRING(5) := '0';	
+	_sSrvNetId		:T_AmsNetId;
+	_sRemoteHost	:T_IPv4Addr;
+	_udiRemotePort	:UDINT;
+	_tTimeout		:TIME;
+	_udiMsgSize		:UDINT;
+END_VAR
+
+VAR	
+	_hSocket    		:T_HSOCKET;
+	_sSendMsg			:STRING(AmeClientParam.udiMSG_SIZE);
+	_sRcvMsg			:STRING(AmeClientParam.udiMSG_SIZE);
+	_udiErrorSocketConn	:UDINT;
+	_udiErrorSocketSend	:UDINT;
+	_udiErrorSocketRcv	:UDINT;
+	
+	_bMethodInit		:BOOL;
+	
+	_sSeparator			:STRING(1) 	:= '|';
+	
+	_eStateM		:(
+						IDLE := 0,
+						EVALUATE_MSG,
+						OPEN_CONNECTION,
+						WAITING_FOR_CONNECTION,
+						SEND_MSG,
+						WAITTING_FOR_SEND_MSG,
+						RCV_MSG,
+						WAITTING_FOR_RCV_MSG,
+						COPY_RCV_MSG,
+						DONE,
+						ERROR
+						);
+	_eError		:(
+						NO_ERROR :=0,
+						MSG_CANNOT_BE_EMPTY,
+						CONNECTION_ERROR,
+						SEND_MSG_ERROR,
+						RCV_MSG_ERROR
+						);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="AssyMethods" Id="{d2b06b89-1dc5-4402-9420-dbe364af5e52}" />
+    <Folder Name="Properties" Id="{df8e3f3a-9e8e-4e72-ab09-67c83bfbead8}" />
+    <Method Name="Assy_Complete_3011" Id="{8cbc1bf9-62e0-453b-9f7a-f17331a27a37}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_Complete_3011 :BOOL;
+VAR_INPUT
+	In	:St_Assy_Complete;
+END_VAR
+
+VAR
+	_sActionCall	:STRING(4) 	:= '3011';
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^._bMethodInit = FALSE THEN
+	THIS^.MethodInit();
+	
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sType);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	This^._sSendMsg := CONCAT(This^._sSendMsg, _sActionCall);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sSfc);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.eState));
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
+	
+	THIS^._bMethodInit := TRUE;
+END_IF
+
+IF THIS^._eError = NO_ERROR THEN
+	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
+		Assy_Complete_3011 		:= TRUE;
+		THIS^._bMethodInit 	:= FALSE;
+	END_IF
+ELSE
+	Assy_Complete_3011 		:= TRUE;
+	THIS^._bMethodInit 	:= FALSE;
+	THIS^.bError 		:= TRUE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assy_GetDetails_1026" Id="{319faac6-504d-4aa1-bc42-76c479cd48c8}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_GetDetails_1026 :BOOL;
+VAR_INPUT
+	In	:St_Assy_GetDetails;
+END_VAR
+
+VAR
+	_sActionCall	:STRING(4) 	:= '1026';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^._bMethodInit = FALSE THEN
+	THIS^.MethodInit();
+	
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sType);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, _sActionCall);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sSfc);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
+	
+	THIS^._bMethodInit := TRUE;
+END_IF
+
+IF THIS^._eError = NO_ERROR THEN
+	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
+		Assy_GetDetails_1026 := TRUE;
+		THIS^._bMethodInit 	:= FALSE;
+	END_IF
+ELSE
+	Assy_GetDetails_1026 	:= TRUE;
+	THIS^._bMethodInit 	:= FALSE;
+	THIS^.bError 		:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assy_SetParametricsAndNCNative_3503" Id="{7aea4ede-d03d-4915-aa71-860b1015078e}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_SetParametricsAndNCNative_3503 :BOOL;
+VAR_INPUT
+	In	:St_Assy_SetParametricsAndNCNative;
+END_VAR
+VAR
+	_sActionCall		:STRING(4) 	:= '3503';	
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^._bMethodInit = FALSE THEN
+	THIS^.MethodInit();
+	
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sType);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	This^._sSendMsg := CONCAT(This^._sSendMsg, _sActionCall);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sSfc);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sProgramId);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sProgramRevision);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sTestStep);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sDescription);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sValue);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sUnit);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sLowerLimit);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sUpperLimit);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sState);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sAdapter);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
+	
+	THIS^._bMethodInit := TRUE;
+END_IF
+
+IF THIS^._eError = NO_ERROR THEN
+	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
+		Assy_SetParametricsAndNCNative_3503 	:= TRUE;
+		THIS^._bMethodInit 				:= FALSE;
+	END_IF
+ELSE
+	Assy_SetParametricsAndNCNative_3503 	:= TRUE;
+	THIS^._bMethodInit 	:= FALSE;
+	THIS^.bError 		:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assy_SetReferences_3026" Id="{6484128b-e50b-4458-b752-8f2c4636102c}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_SetReferences_3026 :BOOL;
+VAR_INPUT
+	In	:St_Assy_SetReferences;
+END_VAR
+VAR
+	_sActionCall	:STRING(4) 	:= '3026';
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^._bMethodInit = FALSE THEN
+	THIS^.MethodInit();	
+	
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sType);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, _sActionCall);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sSfc);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sCustomField);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
+	
+	THIS^._bMethodInit := TRUE;
+END_IF
+
+IF THIS^._eError = NO_ERROR THEN
+	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
+		Assy_SetReferences_3026 	:= TRUE;
+		THIS^._bMethodInit 	:= FALSE;
+	END_IF
+ELSE
+	Assy_SetReferences_3026 	:= TRUE;
+	THIS^._bMethodInit 	:= FALSE;
+	THIS^.bError 		:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assy_SignOff" Id="{c0178c03-7fdf-4727-9b61-38f31c35a7d3}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_SignOff :BOOL;
+VAR_INPUT
+	In	:St_Assy_SignOff;
+END_VAR
+
+VAR
+	_sActionCall	:STRING(4) 	:= '3007';
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^._bMethodInit = FALSE THEN
+	THIS^.MethodInit();
+	
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sType);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, _sActionCall);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sSfc);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
+	
+	THIS^._bMethodInit := TRUE;
+END_IF
+
+IF THIS^._eError = NO_ERROR THEN
+	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
+		Assy_SignOff 		:= TRUE;
+		THIS^._bMethodInit 	:= FALSE;
+	END_IF
+ELSE
+	Assy_SignOff 		:= TRUE;
+	THIS^._bMethodInit 	:= FALSE;
+	THIS^.bError 		:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Assy_Start" Id="{57273c37-e87f-48d2-9da7-397dff96abad}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_Start :BOOL;
+VAR_INPUT
+	In	:St_Assy_Start;
+END_VAR
+
+VAR
+	_sActionCall	:STRING(4) 	:= '3010';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^._bMethodInit = FALSE THEN
+	THIS^.MethodInit();
+	
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sType);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	This^._sSendMsg := CONCAT(This^._sSendMsg, _sActionCall);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, In.sSfc);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, THIS^._sSeparator);
+	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
+	
+	_bMethodInit := TRUE;
+END_IF
+
+IF THIS^._eError = NO_ERROR THEN
+	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
+		Assy_Start 			:= TRUE;
+		THIS^._bMethodInit 	:= FALSE;
+	END_IF
+ELSE
+	Assy_Start 			:= TRUE;
+	THIS^._bMethodInit 	:= FALSE;
+	THIS^.bError 		:= TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{5712cf66-03fe-4fc9-8440-1e3457c51d3b}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INST
+	//_SocketClose	:FB_SocketClose;
+END_VAR
+VAR_INPUT
+	bInitRetains 	: BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode 	: BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	iType			:INT;
+	sSrvNetId		:T_AmsNetId;
+	sRemoteHost		:T_IPv4Addr;
+	udiRemotePort	:UDINT;
+	tTimeout		:TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._sType 		:= INT_TO_STRING(iType);
+THIS^._sSrvNetId	:= sSrvNetId;
+THIS^._sRemoteHost	:= sRemoteHost;
+THIS^._udiRemotePort:= udiRemotePort;
+
+IF tTimeout <= T#0S THEN
+	THIS^._tTimeout	:= DEFAULT_ADS_TIMEOUT;
+ELSE
+	THIS^._tTimeout	:= tTimeout;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="MethodInit" Id="{a8549b6a-9c26-40ce-87a3-7329dd742759}">
+      <Declaration><![CDATA[METHOD PROTECTED MethodInit
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bError 		:= FALSE;
+_eStateM 	:= IDLE;
+_eError		:= NO_ERROR;
+_sSendMsg 	:= '';]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SendRcvMsg" Id="{41004eb7-9b7d-4343-9dae-4120ecf89837}">
+      <Declaration><![CDATA[METHOD PROTECTED SendRcvMsg :BOOL;
+VAR_INPUT
+END_VAR
+
+VAR_INST
+	_SocketConnect 		:FB_SocketConnect;
+	_SocketSend			:FB_SocketSend;
+	_SocketReceive		:FB_SocketReceive;
+	_bOpenConn			:BOOL;
+	_bSendMsg			:BOOL;
+	_bRcvMsg			:BOOL;
+	_iRecBytes			:INT;
+	
+END_VAR
+
+VAR CONSTANT
+	//_udiMAX_RCV_LENGHT	:UDINT :=4294967295;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//DESCRIPTION ************************************************
+//************************************************************
+
+CASE _eStateM OF
+	IDLE:
+		_eStateM := EVALUATE_MSG;
+		
+	EVALUATE_MSG:
+		IF(_sSendMsg = '')
+		THEN
+			_eError 		:= MSG_CANNOT_BE_EMPTY;
+			_eStateM := ERROR;
+			
+		ELSIF(_sSendMsg <> '')
+		THEN
+			_eError 		:= NO_ERROR;
+			_eStateM	:= OPEN_CONNECTION;
+		END_IF
+		
+	OPEN_CONNECTION:
+		_bOpenConn	:= TRUE;
+		
+		IF (_SocketConnect.bError = TRUE)THEN
+			_udiErrorSocketConn	:= _SocketConnect.nErrId;
+			_eError				:= CONNECTION_ERROR;
+			_eStateM 			:= ERROR;
+			
+		ELSIF(_SocketConnect.bBusy = TRUE AND _SocketConnect.bError = FALSE) THEN
+			_eStateM := WAITING_FOR_CONNECTION;
+		END_IF
+		
+	WAITING_FOR_CONNECTION:
+		IF(_SocketConnect.bError = TRUE) THEN
+			_udiErrorSocketConn	:= _SocketConnect.nErrId;
+			_eError				:= CONNECTION_ERROR;
+			_eStateM 			:= ERROR;
+			
+		ELSIF(_SocketConnect.bBusy = FALSE AND _SocketConnect.bError = FALSE) THEN
+			_eStateM := SEND_MSG;
+		END_IF
+		
+	SEND_MSG:
+		_bSendMsg := TRUE;
+		
+		IF(_SocketSend.bBusy = TRUE)
+		THEN
+			_eStateM := WAITTING_FOR_SEND_MSG;
+		END_IF
+		
+	WAITTING_FOR_SEND_MSG:
+		IF(_SocketSend.bError = TRUE)
+		THEN
+			_udiErrorSocketSend 	:= _SocketSend.nErrId;
+			_eError				:= SEND_MSG_ERROR;
+			_eStateM 		:= ERROR;
+		ELSIF(_SocketSend.bBusy = FALSE AND _SocketSend.bError = FALSE)
+		THEN
+			_eStateM := RCV_MSG;
+		END_IF
+		
+	RCV_MSG:
+		_bRcvMsg := TRUE;
+		
+		IF(_SocketReceive.bBusy = TRUE)
+		THEN
+			_eStateM := WAITTING_FOR_RCV_MSG;
+		END_IF
+		
+	WAITTING_FOR_RCV_MSG:
+		IF(_SocketReceive.bError = TRUE)
+		THEN
+			_udiErrorSocketRcv 	:= _SocketReceive.nErrId;
+			_eError				:= RCV_MSG_ERROR;
+			_eStateM 		:= ERROR;
+			
+		ELSIF(_SocketReceive.bBusy = FALSE AND _SocketReceive.bError = FALSE)
+		THEN
+			_eStateM := COPY_RCV_MSG;
+		END_IF
+	
+	COPY_RCV_MSG:
+		_iRecBytes		:= UDINT_TO_INT(_SocketReceive.nRecBytes);
+		_sRcvMsg 		:= LEFT(_sRcvMsg,_iRecBytes);
+		_eStateM 	:= DONE;
+		
+	DONE:
+		_bOpenConn	:= FALSE;
+		_bSendMsg	:= FALSE;
+		_bRcvMsg	:= FALSE;
+		
+		SendRcvMsg	:= TRUE;
+			
+	ERROR:
+		_bOpenConn	:= FALSE;
+		_bSendMsg	:= FALSE;
+		_bRcvMsg	:= FALSE;
+		
+		SendRcvMsg	:= TRUE;
+		 	
+END_CASE
+
+_SocketConnect(
+				sSrvNetId	:= _sSrvNetId, 
+				sRemoteHost	:= _sRemoteHost, 
+				nRemotePort	:= _udiRemotePort, 
+				bExecute	:= _bOpenConn, 
+				tTimeout	:= _tTimeout,  
+				hSocket		=> _hSocket);
+				            
+_SocketSend(                 
+				sSrvNetId	:= _sSrvNetId, 
+				hSocket		:= _hSocket, 
+				cbLen		:= INT_TO_UDINT(LEN(_sSendMsg)), 
+				pSrc		:= ADR(_sSendMsg), 
+				bExecute	:= _bSendMsg, 
+				tTimeout	:= _tTimeout);
+				            
+_SocketReceive(              
+				sSrvNetId	:= _sSrvNetId, 
+				hSocket		:= _hSocket, 
+				cbLen		:= AmeClientParam.udiMSG_SIZE, 
+				pDest		:= ADR(_sRcvMsg), 
+				bExecute	:= _bRcvMsg, 
+				tTimeout	:= _tTimeout);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="sRcvMsg" Id="{7702aebf-0182-47a1-a04b-aaf0bd122492}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC sRcvMsg : STRING]]></Declaration>
+      <Get Name="Get" Id="{bab497ac-cdd6-4adb-b9e9-707e3aab79a2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sRcvMsg	:= _sRcvMsg;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="sSendMsg" Id="{3c6245a5-5d27-4718-84a8-e6469c874235}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC sSendMsg : STRING]]></Declaration>
+      <Get Name="Get" Id="{2981e233-4d57-4c41-bce0-da6bbd25d069}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sSendMsg := _sSendMsg;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="AmeClient">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.Assy_Complete_3011">
+      <LineId Id="425" Count="25" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.Assy_GetDetails_1026">
+      <LineId Id="140" Count="22" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.Assy_SetParametricsAndNCNative_3503">
+      <LineId Id="295" Count="53" />
+      <LineId Id="132" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.Assy_SetReferences_3026">
+      <LineId Id="130" Count="24" />
+      <LineId Id="52" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.Assy_SignOff">
+      <LineId Id="34" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="40" Count="6" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="49" Count="9" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.Assy_Start">
+      <LineId Id="52" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="58" Count="6" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="67" Count="9" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.FB_init">
+      <LineId Id="37" Count="0" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="22" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.MethodInit">
+      <LineId Id="6" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.SendRcvMsg">
+      <LineId Id="1789" Count="122" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.sRcvMsg.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="AmeClient.sSendMsg.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="St_Assy_Complete" Id="{834e0b4f-0972-4dd9-ac5e-666f73992e25}">
+    <Declaration><![CDATA[TYPE St_Assy_Complete EXTENDS St_Assy_Base :
+STRUCT
+	eState		:E_AssyComplete;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

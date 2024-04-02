@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{54b17e3b-3a31-40ea-8d7b-cafbfe7238c8}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+
+VAR	
+
+	AmeClient 							:AmeClient(iType := 1, sSrvNetId := '', sRemoteHost := '192.168.48.2', udiRemotePort := 2001, tTimeout := T#5S);
+	_bAssy_GetDetails 					:BOOL;
+	_st_Assy_GetDetails					: St_Assy_GetDetails := (sSfc := 'TEST0100000000001010184E0010', iOpIndex := 0); 
+	_bAssy_Start						:BOOL;
+	_st_Assy_Start						:St_Assy_Start := (sSfc := 'TEST0100000000001010184E0010', iOpIndex := 0);
+	_bAssy_SetReferences				:BOOL;
+	_st_Assy_SetReferences				:St_Assy_SetReferences := (sSfc := 'TEST0100000000001010184E0010', sCustomField :='PLASMA_COUNTER|0',  iOpIndex := 0);
+	_bAssy_SetParametricsAndNCNative	:BOOL;
+	_st_Assy_SetParametricsAndNCNative	:St_Assy_SetParametricsAndNCNative := (	sSfc 			:= 'TEST0100000000001010184E0010',
+																				sProgramId 		:= 'PROGRAMID_TEST1',
+																				sProgramRevision:= 'PROGRAMREVISION_TEST1',
+																				sTestStep		:= 'TESTESTEP1', 
+																				sDescription	:= 'DESCRIPTION1', 
+																				sValue			:= 'TESTVALUE1', 
+																				sUnit			:= 'UNIT1', 
+																				sLowerLimit		:= 'LOWERLIMIT1', 
+																				sUpperLimit		:= 'UPPERLIMIT1', 
+																				sState			:= '0', 
+																				sAdapter		:= '2',
+																				iOpIndex 		:= 0);
+	_bAssy_Complete						:BOOL;
+	_st_Assy_Complete					:St_Assy_Complete := (sSfc := 'TEST0100000000001010184E0010', eState := E_AssyComplete.PASS, iOpIndex := 0);
+	_bAssy_SignOff						:BOOL;
+	_st_Assy_SignOff					:St_Assy_SignOff := (sSfc := 'TEST0100000000001010184E0010', iOpIndex := 0);
+	_sSendMsg							:STRING(AmeClientParam.udiMSG_SIZE);
+	_sRcvMsg							:STRING(AmeClientParam.udiMSG_SIZE);
+	
+END_VAR
+
+VAR
+	bMsg	:Bool;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Assy GetDetails******************************************************
+
+IF(_bAssy_GetDetails = TRUE AND_THEN AmeClient.Assy_GetDetails_1026(_st_Assy_GetDetails) = TRUE) THEN
+	_bAssy_GetDetails := FALSE;
+	_sSendMsg 		:= AmeClient.sSendMsg;
+	_sRcvMsg 		:= AmeClient.sRcvMsg;
+END_IF
+//**********************************************************************
+
+// Assy Start***********************************************************
+IF(_bAssy_Start = TRUE AND_THEN AmeClient.Assy_Start(_st_Assy_Start) = TRUE) THEN
+	_bAssy_Start := FALSE;
+	_sSendMsg 	:= AmeClient.sSendMsg;
+	_sRcvMsg 	:= AmeClient.sRcvMsg;
+END_IF
+//**********************************************************************
+
+// Assy setReferences***************************************************
+IF(_bAssy_SetReferences = TRUE AND_THEN AmeClient.Assy_SetReferences_3026(_st_Assy_SetReferences) = TRUE ) THEN
+	_bAssy_SetReferences := FALSE;
+	_sSendMsg 	:= AmeClient.sSendMsg;
+	_sRcvMsg 	:= AmeClient.sRcvMsg;
+END_IF
+//**********************************************************************
+
+// Assy SetParametricsAndNCNative***************************************
+IF(_bAssy_SetParametricsAndNCNative = TRUE AND_THEN AmeClient.Assy_SetParametricsAndNCNative_3503(_st_Assy_SetParametricsAndNCNative) = TRUE) THEN
+	_bAssy_SetParametricsAndNCNative := FALSE;
+	_sSendMsg 	:= AmeClient.sSendMsg;
+	_sRcvMsg 	:= AmeClient.sRcvMsg;
+END_IF
+//**********************************************************************
+
+// Assy compleate*******************************************************
+IF(_bAssy_Complete = TRUE AND_THEN AmeClient.Assy_Complete_3011(_st_Assy_Complete) = TRUE) THEN
+	_bAssy_Complete := FALSE;
+	_sSendMsg := AmeClient.sSendMsg;
+	_sRcvMsg := AmeClient.sRcvMsg;
+END_IF
+//**********************************************************************
+
+// Assy signOff*********************************************************
+IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff(_st_Assy_SignOff) = TRUE) THEN
+	_bAssy_SignOff	 := FALSE;
+	_sSendMsg := AmeClient.sSendMsg;
+	_sRcvMsg := AmeClient.sRcvMsg;
+END_IF
+//**********************************************************************
+
+IF bMsg THEN
+	ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
+				msgFmtStr := 'Hello %s',
+				strArg	:= 'world');
+	bMsg := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="898" Count="0" />
+      <LineId Id="1104" Count="0" />
+      <LineId Id="899" Count="0" />
+      <LineId Id="901" Count="0" />
+      <LineId Id="1037" Count="0" />
+      <LineId Id="906" Count="1" />
+      <LineId Id="1038" Count="0" />
+      <LineId Id="909" Count="1" />
+      <LineId Id="1050" Count="0" />
+      <LineId Id="913" Count="1" />
+      <LineId Id="1053" Count="0" />
+      <LineId Id="919" Count="4" />
+      <LineId Id="925" Count="0" />
+      <LineId Id="1059" Count="1" />
+      <LineId Id="932" Count="4" />
+      <LineId Id="938" Count="0" />
+      <LineId Id="1074" Count="0" />
+      <LineId Id="953" Count="2" />
+      <LineId Id="1042" Count="2" />
+      <LineId Id="1046" Count="3" />
+      <LineId Id="998" Count="0" />
+      <LineId Id="968" Count="1" />
+      <LineId Id="1075" Count="0" />
+      <LineId Id="972" Count="1" />
+      <LineId Id="1078" Count="0" />
+      <LineId Id="978" Count="1" />
+      <LineId Id="1144" Count="1" />
+      <LineId Id="1147" Count="0" />
+      <LineId Id="1149" Count="2" />
+      <LineId Id="1148" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

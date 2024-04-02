@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Stereo" Id="{0ec22f8c-464a-4833-a494-67fc5048899e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Stereo IMPLEMENTS I_Device
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="adjustVolume" Id="{5e2741da-5aaf-4cc3-bedb-afb5dd6ef0af}">
+      <Declaration><![CDATA[METHOD adjustVolume
+
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
+		msgFmtStr := 'Volume adjusted',
+		strArg	:= '');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="turnOff" Id="{d5037d07-130a-4ff4-a8b2-8051332701b7}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD turnOff
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
+		msgFmtStr := 'Stereo is now off',
+		strArg	:= '');]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="turnOn" Id="{01af70c0-4843-47f7-9149-beb23180f891}">
+      <Declaration><![CDATA[{warning 'add method implementation '}
+METHOD turnOn
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
+		msgFmtStr := 'Stereo is now on',
+		strArg	:= '');]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="Stereo">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="Stereo.adjustVolume">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="Stereo.turnOff">
+      <LineId Id="5" Count="1" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="Stereo.turnOn">
+      <LineId Id="5" Count="1" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

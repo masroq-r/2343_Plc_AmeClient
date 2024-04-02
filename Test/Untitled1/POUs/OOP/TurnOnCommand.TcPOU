@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TurnOnCommand" Id="{dc1be576-2ffb-4fa4-af5e-668775f5a935}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK TurnOnCommand EXTENDS I_Command
+VAR
+	_device	:I_Device;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="execute" Id="{be89d116-5d31-405e-a9b4-60cc55fd61f1}">
+      <Declaration><![CDATA[METHOD execute
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_device.turnOn();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{6dee32ed-6b33-4bc2-a52e-7d07c51062bd}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	device	:I_Device;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[This^._device := device;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TurnOnCommand">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="TurnOnCommand.execute">
+      <LineId Id="3" Count="0" />
+    </LineIds>
+    <LineIds Name="TurnOnCommand.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

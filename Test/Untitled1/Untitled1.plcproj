@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7013e231-2a5e-4426-aa2c-112b086de038}</ProjectGuid>
+    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <DownloadApplicationInfo>true</DownloadApplicationInfo>
+    <WriteProductVersion>true</WriteProductVersion>
+    <GenerateTpy>false</GenerateTpy>
+    <Name>Untitled1</Name>
+    <ProgramVersion>3.1.4024.0</ProgramVersion>
+    <Application>{c8ec65b3-04c8-45d5-b529-0d7ebc068f2d}</Application>
+    <TypeSystem>{f6bac8e6-ae89-437d-a10a-57ae9b33b0a8}</TypeSystem>
+    <Implicit_Task_Info>{f2b86884-4940-4c9b-bc4b-c64d24f9b994}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{2e8f0174-2f7f-4075-93f5-45ece7dca8ff}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{7c4ae3a5-8cf9-43f5-a8ca-83407d588219}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{2830e51f-626a-482c-bd38-3dbe69caca6f}</LibraryReferences>
+    <Released>false</Released>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PlcTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\AmeClient.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\AmeClientParam.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_Base.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_Complete.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_GetDetails.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_SetParametricsAndNCNative.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_SetReferences.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_SignOff.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_Start.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\AmeClient\DUTs\E_AssyComplete.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\I_Command.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\I_Device.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\Stereo.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\TurnOffCommand.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\OOP\TurnOnCommand.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DUTs" />
+    <Folder Include="GVLs" />
+    <Folder Include="POUs\AmeClient" />
+    <Folder Include="POUs\AmeClient\DUTs" />
+    <Folder Include="POUs\AmeClient\DUTs\AssyMethods" />
+    <Folder Include="POUs\OOP" />
+    <Folder Include="VISUs" />
+    <Folder Include="POUs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Tc2_Standard">
+      <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Standard</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_System">
+      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_TcpIp">
+      <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Module">
+      <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Module</Namespace>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Untitled1.tmc">
+      <SubType>Content</SubType>
+    </None>
+  </ItemGroup>
+  <ProjectExtensions>
+    <PlcProjectOptions>
+      <XmlArchive>
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
+      <v n="Name">"&lt;ProjectRoot&gt;"</v>
+      <d n="SubKeys" t="Hashtable" />
+      <d n="Values" t="Hashtable" />
+    </o>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
+    </PlcProjectOptions>
+  </ProjectExtensions>
+</Project>
