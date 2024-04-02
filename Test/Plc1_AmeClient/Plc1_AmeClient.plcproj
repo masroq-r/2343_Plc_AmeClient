@@ -8,7 +8,7 @@
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <Name>Untitled1</Name>
+    <Name>Plc1_AmeClient</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
     <Application>{c8ec65b3-04c8-45d5-b529-0d7ebc068f2d}</Application>
     <TypeSystem>{f6bac8e6-ae89-437d-a10a-57ae9b33b0a8}</TypeSystem>
@@ -100,7 +100,7 @@
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Untitled1.tmc">
+    <None Include="Plc1_AmeClient.tmc">
       <SubType>Content</SubType>
     </None>
   </ItemGroup>

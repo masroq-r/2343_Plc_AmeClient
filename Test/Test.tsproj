@@ -18,26 +18,7 @@
 			</Tasks>
 		</System>
 		<Plc>
-			<Project GUID="{7013E231-2A5E-4426-AA2C-112B086DE038}" Name="Untitled1" PrjFilePath="Untitled1\Untitled1.plcproj" TmcFilePath="Untitled1\Untitled1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Untitled1\Untitled1.tmc" TmcHash="{D9F02C70-B5D0-33EB-2214-C5D7044821A5}">
-					<Name>Untitled1 Instance</Name>
-					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
-					<Contexts>
-						<Context>
-							<Id>0</Id>
-							<Name>PlcTask</Name>
-							<ManualConfig>
-								<OTCID>#x02010030</OTCID>
-							</ManualConfig>
-							<Priority>20</Priority>
-							<CycleTime>10000000</CycleTime>
-						</Context>
-					</Contexts>
-					<TaskPouOids>
-						<TaskPouOid Prio="20" OTCID="#x08502001"/>
-					</TaskPouOids>
-				</Instance>
-			</Project>
+			<Project File="Plc1_AmeClient.xti"/>
 		</Plc>
 	</Project>
 </TcSmProject>
