@@ -18,7 +18,7 @@
 			</Tasks>
 		</System>
 		<Plc>
-			<Project File="Plc1_AmeClient.xti"/>
+			<Project File="AmeClient_Plc1.xti"/>
 		</Plc>
 	</Project>
 </TcSmProject>
