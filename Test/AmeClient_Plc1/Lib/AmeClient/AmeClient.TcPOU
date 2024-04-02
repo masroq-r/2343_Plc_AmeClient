@@ -359,14 +359,14 @@ _sSendMsg 	:= '';]]></ST>
     <Method Name="OnNewMsgToSend" Id="{214ce4af-22f1-491f-ba62-7895363a0184}" FolderPath="Events\">
       <Declaration><![CDATA[METHOD OnNewMsgToSend]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[MAIN.sSendMsg := sSendMsg;]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnNewRcvMsg" Id="{91857f57-a787-40f7-ab56-507a46633bbf}" FolderPath="Events\">
       <Declaration><![CDATA[METHOD OnNewRcvMsg
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[Main.sRcvMsg := sRcvMsg;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SendRcvMsg" Id="{41004eb7-9b7d-4343-9dae-4120ecf89837}">
@@ -470,7 +470,6 @@ CASE _eStateM OF
 		END_IF
 	
 	COPY_RCV_MSG:
-		OnNewRcvMsg();
 		_iRecBytes		:= UDINT_TO_INT(_SocketReceive.nRecBytes);
 		_sRcvMsg 		:= LEFT(_sRcvMsg,_iRecBytes);
 		_eStateM 	:= DONE;
@@ -479,7 +478,7 @@ CASE _eStateM OF
 		_bOpenConn	:= FALSE;
 		_bSendMsg	:= FALSE;
 		_bRcvMsg	:= FALSE;
-		
+		OnNewRcvMsg();
 		SendRcvMsg	:= TRUE;
 			
 	ERROR:
@@ -517,7 +516,7 @@ _SocketReceive(
       </Implementation>
     </Method>
     <Property Name="sRcvMsg" Id="{7702aebf-0182-47a1-a04b-aaf0bd122492}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY PUBLIC sRcvMsg : STRING]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC sRcvMsg : STRING(AmeClientParam.udiMSG_SIZE)]]></Declaration>
       <Get Name="Get" Id="{bab497ac-cdd6-4adb-b9e9-707e3aab79a2}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -528,7 +527,7 @@ END_VAR
       </Get>
     </Property>
     <Property Name="sSendMsg" Id="{3c6245a5-5d27-4718-84a8-e6469c874235}" FolderPath="Properties\">
-      <Declaration><![CDATA[PROPERTY PUBLIC sSendMsg : STRING]]></Declaration>
+      <Declaration><![CDATA[PROPERTY PUBLIC sSendMsg : STRING(AmeClientParam.udiMSG_SIZE)]]></Declaration>
       <Get Name="Get" Id="{2981e233-4d57-4c41-bce0-da6bbd25d069}">
         <Declaration><![CDATA[VAR
 END_VAR

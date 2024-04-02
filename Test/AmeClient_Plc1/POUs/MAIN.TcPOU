@@ -3,8 +3,11 @@
   <POU Name="MAIN" Id="{54b17e3b-3a31-40ea-8d7b-cafbfe7238c8}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 
+VAR_INPUT
+	sSendMsg						:STRING(AmeClientParam.udiMSG_SIZE);
+	sRcvMsg							:STRING(AmeClientParam.udiMSG_SIZE);
+END_VAR
 VAR	
-
 	AmeClient 							:AmeClient(iType := 1, sSrvNetId := '', sRemoteHost := '192.168.48.2', udiRemotePort := 2001, tTimeout := T#5S);
 	_bAssy_GetDetails 					:BOOL;
 	_st_Assy_GetDetails					: St_Assy_GetDetails := (sSfc := 'TEST0100000000001010184E0010', iOpIndex := 0); 
@@ -29,8 +32,8 @@ VAR
 	_st_Assy_Complete					:St_Assy_Complete := (sSfc := 'TEST0100000000001010184E0010', eState := E_AssyComplete.PASS, iOpIndex := 0);
 	_bAssy_SignOff						:BOOL;
 	_st_Assy_SignOff					:St_Assy_SignOff := (sSfc := 'TEST0100000000001010184E0010', iOpIndex := 0);
-	_sSendMsg							:STRING(AmeClientParam.udiMSG_SIZE);
-	_sRcvMsg							:STRING(AmeClientParam.udiMSG_SIZE);
+	//_sSendMsg							:STRING(AmeClientParam.udiMSG_SIZE);
+	//_sRcvMsg							:STRING(AmeClientParam.udiMSG_SIZE);
 	
 END_VAR
 
@@ -42,48 +45,48 @@ END_VAR]]></Declaration>
 
 IF(_bAssy_GetDetails = TRUE AND_THEN AmeClient.Assy_GetDetails_1026(_st_Assy_GetDetails) = TRUE) THEN
 	_bAssy_GetDetails := FALSE;
-	_sSendMsg 		:= AmeClient.sSendMsg;
-	_sRcvMsg 		:= AmeClient.sRcvMsg;
+	//_sSendMsg 		:= AmeClient.sSendMsg;
+	//_sRcvMsg 		:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy Start***********************************************************
 IF(_bAssy_Start = TRUE AND_THEN AmeClient.Assy_Start_3010(_st_Assy_Start) = TRUE) THEN
 	_bAssy_Start := FALSE;
-	_sSendMsg 	:= AmeClient.sSendMsg;
-	_sRcvMsg 	:= AmeClient.sRcvMsg;
+	//_sSendMsg 	:= AmeClient.sSendMsg;
+	//_sRcvMsg 	:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy setReferences***************************************************
 IF(_bAssy_SetReferences = TRUE AND_THEN AmeClient.Assy_SetReferences_3026(_st_Assy_SetReferences) = TRUE ) THEN
 	_bAssy_SetReferences := FALSE;
-	_sSendMsg 	:= AmeClient.sSendMsg;
-	_sRcvMsg 	:= AmeClient.sRcvMsg;
+	//_sSendMsg 	:= AmeClient.sSendMsg;
+	//_sRcvMsg 	:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy SetParametricsAndNCNative***************************************
 IF(_bAssy_SetParametricsAndNCNative = TRUE AND_THEN AmeClient.Assy_SetParametricsAndNCNative_3503(_st_Assy_SetParametricsAndNCNative) = TRUE) THEN
 	_bAssy_SetParametricsAndNCNative := FALSE;
-	_sSendMsg 	:= AmeClient.sSendMsg;
-	_sRcvMsg 	:= AmeClient.sRcvMsg;
+	//_sSendMsg 	:= AmeClient.sSendMsg;
+	//_sRcvMsg 	:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy compleate*******************************************************
 IF(_bAssy_Complete = TRUE AND_THEN AmeClient.Assy_Complete_3011(_st_Assy_Complete) = TRUE) THEN
 	_bAssy_Complete := FALSE;
-	_sSendMsg := AmeClient.sSendMsg;
-	_sRcvMsg := AmeClient.sRcvMsg;
+	//_sSendMsg := AmeClient.sSendMsg;
+	//_sRcvMsg := AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy signOff*********************************************************
 IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff_3007(_st_Assy_SignOff) = TRUE) THEN
 	_bAssy_SignOff	 := FALSE;
-	_sSendMsg := AmeClient.sSendMsg;
-	_sRcvMsg := AmeClient.sRcvMsg;
+	//_sSendMsg := AmeClient.sSendMsg;
+	//_sRcvMsg := AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
