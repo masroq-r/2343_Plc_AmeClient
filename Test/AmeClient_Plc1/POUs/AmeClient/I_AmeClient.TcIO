@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <Itf Name="I_AmeClient" Id="{331a3e02-f3d3-4b18-a5d7-9910e6c08ce3}">
-    <Declaration><![CDATA[INTERFACE I_AmeClient
-]]></Declaration>
-    <Folder Name="Events" Id="{4bfd18d6-0d8b-46e7-abb3-bee0ee031d13}" />
-  </Itf>
-</TcPlcObject>

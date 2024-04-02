@@ -19,41 +19,41 @@
     <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PlcTask.TcTTO">
+    <Compile Include="Lib\AmeClient\AmeClient.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\AmeClient.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\AmeClient\AmeClientParam.TcGVL">
+    <Compile Include="Lib\AmeClient\AmeClientParam.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_Base.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_Base.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_Complete.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_Complete.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_GetDetails.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_GetDetails.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_SetParametricsAndNCNative.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_SetParametricsAndNCNative.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_SetReferences.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_SetReferences.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_SignOff.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_SignOff.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\AssyMethods\St_Assy_Start.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\AssyMethods\St_Assy_Start.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\DUTs\E_AssyComplete.TcDUT">
+    <Compile Include="Lib\AmeClient\DUTs\E_AssyComplete.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\AmeClient\I_AmeClient.TcIO">
+    <Compile Include="Lib\AmeClient\I_AmeClient.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
@@ -78,9 +78,10 @@
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
-    <Folder Include="POUs\AmeClient" />
-    <Folder Include="POUs\AmeClient\DUTs" />
-    <Folder Include="POUs\AmeClient\DUTs\AssyMethods" />
+    <Folder Include="Lib" />
+    <Folder Include="Lib\AmeClient" />
+    <Folder Include="Lib\AmeClient\DUTs" />
+    <Folder Include="Lib\AmeClient\DUTs\AssyMethods" />
     <Folder Include="POUs\OOP" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="AmeClient" Id="{42cbfb19-915f-490d-8a20-4bfe1117c9a0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK AmeClient
+    <Declaration><![CDATA[FUNCTION_BLOCK AmeClient IMPLEMENTS I_AmeClient
 
 VAR_OUTPUT
 	bError	:BOOL;
 END_VAR
 
 VAR		// FB_Init
-	_sType			:STRING(5) := '0';	
+	_sType			:STRING(5) := '0';
 	_sSrvNetId		:T_AmsNetId;
 	_sRemoteHost	:T_IPv4Addr;
 	_udiRemotePort	:UDINT;
@@ -54,6 +54,7 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Folder Name="AssyMethods" Id="{d2b06b89-1dc5-4402-9420-dbe364af5e52}" />
+    <Folder Name="Events" Id="{f2d0e040-0585-44f2-8389-7cbbf2e35960}" />
     <Folder Name="Properties" Id="{df8e3f3a-9e8e-4e72-ab09-67c83bfbead8}" />
     <Method Name="Assy_Complete_3011" Id="{8cbc1bf9-62e0-453b-9f7a-f17331a27a37}" FolderPath="AssyMethods\">
       <Declaration><![CDATA[METHOD PUBLIC Assy_Complete_3011 :BOOL;
@@ -80,6 +81,7 @@ END_VAR
 	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
 	
 	THIS^._bMethodInit := TRUE;
+	OnNewMsgToSend();
 END_IF
 
 IF THIS^._eError = NO_ERROR THEN
@@ -117,6 +119,7 @@ END_VAR]]></Declaration>
 	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
 	
 	THIS^._bMethodInit := TRUE;
+	OnNewMsgToSend();
 END_IF
 
 IF THIS^._eError = NO_ERROR THEN
@@ -183,6 +186,7 @@ END_VAR]]></Declaration>
 	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
 	
 	THIS^._bMethodInit := TRUE;
+	OnNewMsgToSend();
 END_IF
 
 IF THIS^._eError = NO_ERROR THEN
@@ -221,6 +225,7 @@ END_VAR
 	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
 	
 	THIS^._bMethodInit := TRUE;
+	OnNewMsgToSend();
 END_IF
 
 IF THIS^._eError = NO_ERROR THEN
@@ -258,6 +263,7 @@ END_VAR
 	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
 	
 	THIS^._bMethodInit := TRUE;
+	OnNewMsgToSend();
 END_IF
 
 IF THIS^._eError = NO_ERROR THEN
@@ -294,6 +300,7 @@ END_VAR]]></Declaration>
 	THIS^._sSendMsg := CONCAT(THIS^._sSendMsg, INT_TO_STRING(In.iOpIndex));
 	
 	_bMethodInit := TRUE;
+	OnNewMsgToSend();
 END_IF
 
 IF THIS^._eError = NO_ERROR THEN
@@ -347,6 +354,19 @@ END_VAR
 _eStateM 	:= IDLE;
 _eError		:= NO_ERROR;
 _sSendMsg 	:= '';]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnNewMsgToSend" Id="{214ce4af-22f1-491f-ba62-7895363a0184}" FolderPath="Events\">
+      <Declaration><![CDATA[METHOD OnNewMsgToSend]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnNewRcvMsg" Id="{91857f57-a787-40f7-ab56-507a46633bbf}" FolderPath="Events\">
+      <Declaration><![CDATA[METHOD OnNewRcvMsg
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="SendRcvMsg" Id="{41004eb7-9b7d-4343-9dae-4120ecf89837}">
@@ -450,6 +470,7 @@ CASE _eStateM OF
 		END_IF
 	
 	COPY_RCV_MSG:
+		OnNewRcvMsg();
 		_iRecBytes		:= UDINT_TO_INT(_SocketReceive.nRecBytes);
 		_sRcvMsg 		:= LEFT(_sRcvMsg,_iRecBytes);
 		_eStateM 	:= DONE;
