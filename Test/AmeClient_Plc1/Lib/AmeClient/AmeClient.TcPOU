@@ -350,10 +350,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[bError 		:= FALSE;
-_eStateM 	:= IDLE;
-_eError		:= NO_ERROR;
-_sSendMsg 	:= '';]]></ST>
+        <ST><![CDATA[THIS^.bError 	:= FALSE;
+THIS^._eStateM 	:= IDLE;
+THIS^._eError	:= NO_ERROR;
+THIS^._sRcvMsg	:= '';
+THIS^._sSendMsg := '';]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnNewMsgToSend" Id="{214ce4af-22f1-491f-ba62-7895363a0184}" FolderPath="Events\">
@@ -486,6 +487,8 @@ CASE _eStateM OF
 		_bSendMsg	:= FALSE;
 		_bRcvMsg	:= FALSE;
 		
+		_sRcvMsg	:= 'Error';
+		OnNewRcvMsg();
 		SendRcvMsg	:= TRUE;
 		 	
 END_CASE

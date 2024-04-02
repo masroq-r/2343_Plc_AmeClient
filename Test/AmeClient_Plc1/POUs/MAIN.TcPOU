@@ -45,48 +45,36 @@ END_VAR]]></Declaration>
 
 IF(_bAssy_GetDetails = TRUE AND_THEN AmeClient.Assy_GetDetails_1026(_st_Assy_GetDetails) = TRUE) THEN
 	_bAssy_GetDetails := FALSE;
-	//_sSendMsg 		:= AmeClient.sSendMsg;
-	//_sRcvMsg 		:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy Start***********************************************************
 IF(_bAssy_Start = TRUE AND_THEN AmeClient.Assy_Start_3010(_st_Assy_Start) = TRUE) THEN
 	_bAssy_Start := FALSE;
-	//_sSendMsg 	:= AmeClient.sSendMsg;
-	//_sRcvMsg 	:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy setReferences***************************************************
 IF(_bAssy_SetReferences = TRUE AND_THEN AmeClient.Assy_SetReferences_3026(_st_Assy_SetReferences) = TRUE ) THEN
 	_bAssy_SetReferences := FALSE;
-	//_sSendMsg 	:= AmeClient.sSendMsg;
-	//_sRcvMsg 	:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy SetParametricsAndNCNative***************************************
 IF(_bAssy_SetParametricsAndNCNative = TRUE AND_THEN AmeClient.Assy_SetParametricsAndNCNative_3503(_st_Assy_SetParametricsAndNCNative) = TRUE) THEN
 	_bAssy_SetParametricsAndNCNative := FALSE;
-	//_sSendMsg 	:= AmeClient.sSendMsg;
-	//_sRcvMsg 	:= AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy compleate*******************************************************
 IF(_bAssy_Complete = TRUE AND_THEN AmeClient.Assy_Complete_3011(_st_Assy_Complete) = TRUE) THEN
 	_bAssy_Complete := FALSE;
-	//_sSendMsg := AmeClient.sSendMsg;
-	//_sRcvMsg := AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
 // Assy signOff*********************************************************
 IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff_3007(_st_Assy_SignOff) = TRUE) THEN
 	_bAssy_SignOff	 := FALSE;
-	//_sSendMsg := AmeClient.sSendMsg;
-	//_sRcvMsg := AmeClient.sRcvMsg;
 END_IF
 //**********************************************************************
 
