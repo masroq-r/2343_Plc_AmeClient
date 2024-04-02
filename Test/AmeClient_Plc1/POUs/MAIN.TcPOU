@@ -87,44 +87,12 @@ IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff(_st_Assy_SignOff) = TR
 END_IF
 //**********************************************************************
 
-IF bMsg THEN
-	ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
-				msgFmtStr := 'Hello %s',
-				strArg	:= 'world');
-	bMsg := FALSE;
-END_IF]]></ST>
+//IF bMsg THEN
+//	ADSLOGSTR(msgCtrlMask := ADSLOG_MSGTYPE_LOG OR ADSLOG_MSGTYPE_LOG,
+//				msgFmtStr := 'Hello %s',
+//				strArg	:= 'world');
+//	bMsg := FALSE;
+//END_IF]]></ST>
     </Implementation>
-    <LineIds Name="MAIN">
-      <LineId Id="898" Count="0" />
-      <LineId Id="1104" Count="0" />
-      <LineId Id="899" Count="0" />
-      <LineId Id="901" Count="0" />
-      <LineId Id="1037" Count="0" />
-      <LineId Id="906" Count="1" />
-      <LineId Id="1038" Count="0" />
-      <LineId Id="909" Count="1" />
-      <LineId Id="1050" Count="0" />
-      <LineId Id="913" Count="1" />
-      <LineId Id="1053" Count="0" />
-      <LineId Id="919" Count="4" />
-      <LineId Id="925" Count="0" />
-      <LineId Id="1059" Count="1" />
-      <LineId Id="932" Count="4" />
-      <LineId Id="938" Count="0" />
-      <LineId Id="1074" Count="0" />
-      <LineId Id="953" Count="2" />
-      <LineId Id="1042" Count="2" />
-      <LineId Id="1046" Count="3" />
-      <LineId Id="998" Count="0" />
-      <LineId Id="968" Count="1" />
-      <LineId Id="1075" Count="0" />
-      <LineId Id="972" Count="1" />
-      <LineId Id="1078" Count="0" />
-      <LineId Id="978" Count="1" />
-      <LineId Id="1144" Count="1" />
-      <LineId Id="1147" Count="0" />
-      <LineId Id="1149" Count="2" />
-      <LineId Id="1148" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
