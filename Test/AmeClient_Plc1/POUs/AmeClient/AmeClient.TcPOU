@@ -235,8 +235,8 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Assy_SignOff" Id="{c0178c03-7fdf-4727-9b61-38f31c35a7d3}" FolderPath="AssyMethods\">
-      <Declaration><![CDATA[METHOD PUBLIC Assy_SignOff :BOOL;
+    <Method Name="Assy_SignOff_3007" Id="{c0178c03-7fdf-4727-9b61-38f31c35a7d3}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_SignOff_3007 :BOOL;
 VAR_INPUT
 	In	:St_Assy_SignOff;
 END_VAR
@@ -262,18 +262,18 @@ END_IF
 
 IF THIS^._eError = NO_ERROR THEN
 	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
-		Assy_SignOff 		:= TRUE;
+		Assy_SignOff_3007 		:= TRUE;
 		THIS^._bMethodInit 	:= FALSE;
 	END_IF
 ELSE
-	Assy_SignOff 		:= TRUE;
+	Assy_SignOff_3007 		:= TRUE;
 	THIS^._bMethodInit 	:= FALSE;
 	THIS^.bError 		:= TRUE;
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Assy_Start" Id="{57273c37-e87f-48d2-9da7-397dff96abad}" FolderPath="AssyMethods\">
-      <Declaration><![CDATA[METHOD PUBLIC Assy_Start :BOOL;
+    <Method Name="Assy_Start_3010" Id="{57273c37-e87f-48d2-9da7-397dff96abad}" FolderPath="AssyMethods\">
+      <Declaration><![CDATA[METHOD PUBLIC Assy_Start_3010 :BOOL;
 VAR_INPUT
 	In	:St_Assy_Start;
 END_VAR
@@ -298,11 +298,11 @@ END_IF
 
 IF THIS^._eError = NO_ERROR THEN
 	IF THIS^._bMethodInit = TRUE AND_THEN  THIS^.SendRcvMsg()= TRUE THEN
-		Assy_Start 			:= TRUE;
+		Assy_Start_3010 			:= TRUE;
 		THIS^._bMethodInit 	:= FALSE;
 	END_IF
 ELSE
-	Assy_Start 			:= TRUE;
+	Assy_Start_3010 			:= TRUE;
 	THIS^._bMethodInit 	:= FALSE;
 	THIS^.bError 		:= TRUE;
 END_IF]]></ST>
@@ -517,67 +517,5 @@ END_VAR
         </Implementation>
       </Get>
     </Property>
-    <LineIds Name="AmeClient">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.Assy_Complete_3011">
-      <LineId Id="425" Count="25" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.Assy_GetDetails_1026">
-      <LineId Id="140" Count="22" />
-      <LineId Id="23" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.Assy_SetParametricsAndNCNative_3503">
-      <LineId Id="295" Count="53" />
-      <LineId Id="132" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.Assy_SetReferences_3026">
-      <LineId Id="130" Count="24" />
-      <LineId Id="52" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.Assy_SignOff">
-      <LineId Id="34" Count="0" />
-      <LineId Id="74" Count="0" />
-      <LineId Id="40" Count="6" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="47" Count="1" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="49" Count="9" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.Assy_Start">
-      <LineId Id="52" Count="0" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="58" Count="6" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="65" Count="1" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="67" Count="9" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.FB_init">
-      <LineId Id="37" Count="0" />
-      <LineId Id="9" Count="2" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="23" Count="1" />
-      <LineId Id="22" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.MethodInit">
-      <LineId Id="6" Count="2" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.SendRcvMsg">
-      <LineId Id="1789" Count="122" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.sRcvMsg.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
-    <LineIds Name="AmeClient.sSendMsg.Get">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

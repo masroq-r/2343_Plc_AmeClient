@@ -48,7 +48,7 @@ END_IF
 //**********************************************************************
 
 // Assy Start***********************************************************
-IF(_bAssy_Start = TRUE AND_THEN AmeClient.Assy_Start(_st_Assy_Start) = TRUE) THEN
+IF(_bAssy_Start = TRUE AND_THEN AmeClient.Assy_Start_3010(_st_Assy_Start) = TRUE) THEN
 	_bAssy_Start := FALSE;
 	_sSendMsg 	:= AmeClient.sSendMsg;
 	_sRcvMsg 	:= AmeClient.sRcvMsg;
@@ -80,7 +80,7 @@ END_IF
 //**********************************************************************
 
 // Assy signOff*********************************************************
-IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff(_st_Assy_SignOff) = TRUE) THEN
+IF(_bAssy_SignOff	 = TRUE AND_THEN AmeClient.Assy_SignOff_3007(_st_Assy_SignOff) = TRUE) THEN
 	_bAssy_SignOff	 := FALSE;
 	_sSendMsg := AmeClient.sSendMsg;
 	_sRcvMsg := AmeClient.sRcvMsg;

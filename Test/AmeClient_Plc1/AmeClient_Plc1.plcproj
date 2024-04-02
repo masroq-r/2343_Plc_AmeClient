@@ -53,6 +53,9 @@
     <Compile Include="POUs\AmeClient\DUTs\E_AssyComplete.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\AmeClient\I_AmeClient.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
