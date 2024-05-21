@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53">
-	<Project ProjectGUID="{E731B572-CC6A-4F26-8778-70224B2595D8}" Target64Bit="true" ShowHideConfigurations="#x3c7">
+	<Project ProjectGUID="{E731B572-CC6A-4F26-8778-70224B2595D8}" Target64Bit="true" ShowHideConfigurations="#x3c6">
 		<System>
 			<Settings MaxCpus="4" NonWinCpus="1" Packages="2">
 				<Cpu CpuId="3"/>
@@ -17,8 +17,15 @@
 				</Task>
 			</Tasks>
 		</System>
+		<Motion>
+			<NC File="NC.xti"/>
+		</Motion>
 		<Plc>
 			<Project File="AmeClient_Plc1.xti"/>
 		</Plc>
+		<Io>
+			<Device File="Device 1 (EtherCAT).xti" Id="1"/>
+			<Device File="Device 2 (EL6631).xti" Id="2"/>
+		</Io>
 	</Project>
 </TcSmProject>

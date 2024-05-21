@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="Xenon1900VirtualCom" Id="{df0a461f-910b-4b9a-ad19-6b03e7d3cca0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Xenon1900VirtualCom
+VAR
+	_bConnect				:BOOL;
+	_ComCfg					:ComSerialConfig;
+	_TxBuffer				:ComBuffer;
+	_RxBuffer				:ComBuffer;
+	_SerialLineControlADS	:SerialLineControlADS;
+	_bReset					:BOOL;
+	_sStringData			:STRING;
+	_ReceiveString			:ReceiveString;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[_SerialLineControlADS(
+	Connect		:= _bConnect, 
+	SerialCfg	:= _ComCfg, 
+	NetId		:= '', 
+	Timeout		:= DEFAULT_ADS_TIMEOUT, 
+	TxBuffer	:= _TxBuffer, 
+	RxBuffer	:= _RxBuffer);
+
+_ReceiveString(
+	Prefix			:= '', 
+	Suffix			:= '', 
+	Timeout			:= T#250ms, 
+	Reset			:= _bReset, 
+	ReceivedString	:= _sStringData, 
+	RXbuffer		:= _RxBuffer);]]></ST>
+    </Implementation>
+    <Folder Name="Properties" Id="{77a37cba-d5f3-4393-ab36-3994d78c56dc}" />
+    <Property Name="bConnect" Id="{4a4aa5f5-8518-4233-8b33-7499164edd53}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC bConnect : BOOL]]></Declaration>
+      <Set Name="Set" Id="{f6004e24-8893-4487-ab35-47477e2a46fd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_bConnect := bConnect;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Property Name="bStringReceived" Id="{68d72b70-9f8a-4928-a1b1-be0257d73ca7}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC bStringReceived : BOOL]]></Declaration>
+      <Get Name="Get" Id="{444dcc77-88e5-4707-895d-bd54a6b8664a}">
+        <Declaration><![CDATA[VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[bStringReceived := _ReceiveString.StringReceived;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="sStringData" Id="{bc370157-2d55-4c9d-bad8-11359222fdb2}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC sStringData : STRING]]></Declaration>
+      <Get Name="Get" Id="{4b93631f-cc5f-4cd5-9d46-15c383957d94}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sStringData := _sStringData;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="uiComPort" Id="{a0fab9b3-04d8-43dd-ab0a-c7a43451de24}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY PUBLIC uiComPort : UINT]]></Declaration>
+      <Set Name="Set" Id="{a48dcd18-7756-4036-bd54-80dd2ff1c193}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_ComCfg.ComPort := UINT_TO_UDINT(uiComPort);]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

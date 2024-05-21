@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="MAIN" Id="{54b17e3b-3a31-40ea-8d7b-cafbfe7238c8}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 
@@ -39,6 +39,16 @@ END_VAR
 
 VAR
 	bMsg	:Bool;
+END_VAR
+
+VAR
+	HandScanner	:Xenon1900VirtualCom();
+	sSfc	:STRING;
+END_VAR
+
+VAR
+	_AmeClientV2 :AmeClientV2(usiType := 1, sSrvNetId := '', sRemoteHost := '192.168.103.17', udiRemotePort := 2001, tTimeout := DEFAULT_ADS_TIMEOUT);
+	
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Assy GetDetails******************************************************
@@ -83,7 +93,22 @@ IF bMsg THEN
 				msgFmtStr := 'Hello %s',
 				strArg	:= 'world');
 	bMsg := FALSE;
-END_IF]]></ST>
+END_IF
+
+
+/////////////////////////////////////////////////////
+HandScanner();
+HandScanner.uiComPort := 3;
+HandScanner.bConnect := TRUE;
+IF HandScanner.bStringReceived THEN
+	sSfc := HandScanner.sStringData;;
+END_IF
+
+/////////////////////////////////////////////////////
+
+_AmeClientV2();
+
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

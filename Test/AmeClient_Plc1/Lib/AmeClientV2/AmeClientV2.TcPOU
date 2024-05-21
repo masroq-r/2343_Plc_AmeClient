@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="AmeClientV2" Id="{529b8c90-0428-4b25-8c94-8b2e0ce12228}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC AmeClientV2
+VAR
+	// Connection configuration var
+	_usiType			:USINT;
+	_sSrvNetId			:T_AmsNetId;
+	_sRemoteHost		:T_IPv4Addr;
+	_udiRemotePort		:UDINT;
+	_tTimeOut			:TIME;
+	
+	_tcpIpClient	:tcpIpClient(sSrvNetId := THIS^._sSrvNetId, sRemoteHost := THIS^._sRemoteHost, udiRemotePort := THIS^._udiRemotePort, tTimeOut := THIS^._tTimeOut );
+END_VAR
+
+VAR
+	_bOpenSocket	:BOOL;
+	_bCloseSocket	:BOOL;
+	_bSendData		:BOOL;
+	_sMsg			:STRING(5000) := 'Hola';
+	_bRcvdata		:BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF _bOpenSocket AND_THEN _tcpIpClient.OpenSocket() THEN
+	_bOpenSocket := FALSE;
+END_IF
+
+IF _bCloseSocket AND_THEN _tcpIpClient.CloseSocket() THEN
+	_bCloseSocket := FALSE;
+END_IF
+
+IF _bSendData AND_THEN _tcpIpClient.Send(ADR(_sMsg), f_StringLen(ADR(_sMsg), SIZEOF(_sMsg))) THEN
+	_bSendData := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{8437a971-86c0-4ad6-ab76-68c42906b8a8}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+
+	usiType			:USINT;
+	sSrvNetId		:T_AmsNetId;
+	sRemoteHost		:T_IPv4Addr;
+	udiRemotePort	:UDINT;
+	tTimeOut		:TIME;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._usiType			:= usiType;
+THIS^._sSrvNetId 		:= sSrvNetId;
+THIS^._sRemoteHost		:= sRemoteHost;
+THIS^._udiRemotePort	:= udiRemotePort;
+THIS^._tTimeOut			:= tTimeOut;
+IF THIS^._tTimeOut = T#0S THEN
+	THIS^._tTimeOut := DEFAULT_ADS_TIMEOUT;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

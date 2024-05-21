@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="Stereo" Id="{0ec22f8c-464a-4833-a494-67fc5048899e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Stereo IMPLEMENTS I_Device
 VAR_INPUT
@@ -42,20 +42,5 @@ METHOD turnOn
 		strArg	:= '');]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="Stereo">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="Stereo.adjustVolume">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="Stereo.turnOff">
-      <LineId Id="5" Count="1" />
-      <LineId Id="4" Count="0" />
-    </LineIds>
-    <LineIds Name="Stereo.turnOn">
-      <LineId Id="5" Count="1" />
-      <LineId Id="4" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

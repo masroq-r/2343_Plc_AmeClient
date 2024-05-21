@@ -6,7 +6,7 @@
     <ProjectGuid>{7013e231-2a5e-4426-aa2c-112b086de038}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
-    <WriteProductVersion>true</WriteProductVersion>
+    <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>AmeClient_Plc1</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
@@ -17,8 +17,18 @@
     <Implicit_Jitter_Distribution>{7c4ae3a5-8cf9-43f5-a8ca-83407d588219}</Implicit_Jitter_Distribution>
     <LibraryReferences>{2830e51f-626a-482c-bd38-3dbe69caca6f}</LibraryReferences>
     <Released>false</Released>
+    <CombineIds>true</CombineIds>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Lib\00_BaseLibraries\Functions\f_StringLen.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Lib\00_BaseLibraries\tcpIpClient\tcpIpClient.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Lib\AmeClientV2\AmeClientV2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Lib\AmeClient\AmeClient.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -53,6 +63,9 @@
     <Compile Include="Lib\AmeClient\I_AmeClient.TcIO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Lib\HandScanners\Xenon1900VirtualCom.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -79,14 +92,22 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="Lib" />
+    <Folder Include="Lib\00_BaseLibraries\Functions" />
+    <Folder Include="Lib\00_BaseLibraries\tcpIpClient" />
     <Folder Include="Lib\AmeClient" />
     <Folder Include="Lib\AmeClient\DUTs" />
     <Folder Include="Lib\AmeClient\DUTs\AssyMethods" />
+    <Folder Include="Lib\HandScanners" />
+    <Folder Include="Lib\00_BaseLibraries" />
+    <Folder Include="Lib\AmeClientV2" />
     <Folder Include="POUs\OOP" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="Tc2_SerialCom">
+      <DefaultResolution>Tc2_SerialCom, * (Beckhoff Automation GmbH)</DefaultResolution>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -97,6 +118,7 @@
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_TcpIp">
       <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_TcpIp</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>

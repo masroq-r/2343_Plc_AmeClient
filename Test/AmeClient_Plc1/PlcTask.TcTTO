@@ -12,6 +12,5 @@
     <Fb_exit>{b0394776-14c5-41b6-9267-d530c2066f46}</Fb_exit>
     <CycleUpdate>{09d6507d-1ab5-48e8-91ab-3bc73cbcb50f}</CycleUpdate>
     <PostCycleUpdate>{0b09c107-4052-47fb-aaab-a3ac12366ef9}</PostCycleUpdate>
-    <ObjectProperties />
   </Task>
 </TcPlcObject>

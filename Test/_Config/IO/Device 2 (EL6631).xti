@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53" ClassName="CDevEthernetProtocolPnMasterDef" SubType="119">
+	<Device Id="2" Disabled="true" DevType="119" AmsPort="28674" AmsNetId="192.168.48.2.3.1" RemoteName="Device 2 (EL6631)">
+		<Name>__FILENAME__</Name>
+		<DevData>000000000200000000000000000000005465726d20322028454c363633312900000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000</DevData>
+		<Image Id="3" AddrType="4" ImageType="3" SizeIn="4" SizeOut="8">
+			<Name>Image</Name>
+		</Image>
+		<Box File="tcpniodevice.xti" Id="3"/>
+		<Box File="tcpniodevice-4.xti" Id="4"/>
+		<Profinet PLCPortNr="851" AddPortCount="1">
+			<Ethernet DeviceDesc="EL6631 PROFINET IO Controller"/>
+			<PNController ClientPort="60000" ServerPort="61000" VendorId="288" DeviceId="37" IPData="00000000c0a80101ffffff00c0a80101" SystemName="el6631-pncontroller" IRTSendClock="32">
+				<RTData CableLength="10"/>
+			</PNController>
+		</Profinet>
+	</Device>
+</TcSmItem>

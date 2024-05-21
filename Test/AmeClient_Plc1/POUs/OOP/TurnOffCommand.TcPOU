@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <POU Name="TurnOffCommand" Id="{7bc8b26d-52a2-4d18-b9a0-dfa25e1824f4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK TurnOffCommand EXTENDS I_Command
 VAR
@@ -30,15 +30,5 @@ END_VAR
 ]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="TurnOffCommand">
-      <LineId Id="9" Count="0" />
-    </LineIds>
-    <LineIds Name="TurnOffCommand.execute">
-      <LineId Id="3" Count="0" />
-    </LineIds>
-    <LineIds Name="TurnOffCommand.FB_init">
-      <LineId Id="7" Count="0" />
-      <LineId Id="10" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

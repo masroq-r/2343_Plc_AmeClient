@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53" ClassName="CPnIoBoxDef" SubType="9122">
+	<Box Id="3" BoxType="9122">
+		<Name>__FILENAME__</Name>
+		<Comment><![CDATA[GSDML Name: GSDML-V2.43-beckhoff-TCPNDevice-20230627.xml
+Path: $(TWINCAT3DIR)Config\Io\Profinet\
+VendorName: Beckhoff Automation
+OrderNumber: TwinCAT PN Device
+HW Release Version: 1
+SW Release Version: V7.00]]></Comment>
+		<ImageId>107</ImageId>
+		<Vars VarGrpType="1">
+			<Name>Inputs</Name>
+			<Var>
+				<Name>PnIoBoxState</Name>
+				<Comment><![CDATA[0 = No error
+1 = Profinet device state machine is in boot mode
+2 = Device not found
+3 = The stationname is not unique
+4 = IP could not be set
+5 = IP conflict
+6 = DCP set was not successful
+7 = Watchdog error
+8 = Datahold error
+9 = RTC3: Sync mode could not be initiated
+10 = Profinet controller has a link error
+11 = The aliasname is not unique
+12 = The automatic name assignement isn't possible - wrong device type
+13 = IOC-AR is established but no application ready
+14 = IOC-AR is established but module difference
+15 = At least one InputCR is invalid, provider in stop or problemindicator is set
+16 = At least one OutputCR is invalid, provider in stop or problemindicator is set
+31 = Only for EtherCAT gateways: WC-State of cyclic EtherCAT frame is 1
+]]></Comment>
+				<Type>UINT</Type>
+			</Var>
+			<Var>
+				<Name>PnIoBoxDiag</Name>
+				<Comment><![CDATA[0x0000 = No diagnosis
+0x0001 = IOC-AR is not established
+0x0002 = IOC-AR is established
+0x0004 = IOC-AR is established but no application ready
+0x0008 = IOC-AR is established but module difference
+0x0010 = At least one AlarmCR got a diagnosis alarm
+0x0100 = At least one InputCR is invalid
+0x0200 = At least one InputCR Provider is in stop
+0x0400 = At least one InputCR Problemindicator is set
+0x1000 = At least one OutputCR is invalid
+0x2000 = At least one OutputCR Provider is in stop
+0x4000 = At least one OutputCR Problemindicator is set
+]]></Comment>
+				<Type>UINT</Type>
+				<BitOffs>16</BitOffs>
+			</Var>
+		</Vars>
+		<Vars VarGrpType="2">
+			<Name>Outputs</Name>
+			<Var>
+				<Name>PnIoBoxCtrl</Name>
+				<Type>UINT</Type>
+			</Var>
+		</Vars>
+		<Profinet DeviceId="33" VendorId="288" FrameOffset="32768" IPAdd="c0a80102" ProtocolType="3" BoxOnDeviceTyp="119" MaxPhysSlotNr="255" InstanceServerPort="50000" InstanceClientPort="50001" InstanceNumberOfARs="1" InstanceNumberOfAPIs="1" MinDeviceInterval="32" NrOfGsdmlDap="7" SavePnIoBoxValues="5d00" MultipleWriteSupported="true" Phase="1" WatchdogFaktor="3" ReductionRatio="1" SendClockFaktor="32" MaxInputLen="1440" MaxOutputLen="1440" MaxDataLen="2880" SendClockFactorData="200040008000" RedRatio="0100020004000800100020004000800000010002" BoxTypeInfo="TwinCAT PLC PROFINET I/O Device with I/Os, V2.43, PROFIenergy supported; 1 port" PDOmapping="1" OutputErrorBehavior="2" GSDMLPath="$(TWINCAT3DIR)Config\Io\Profinet\GSDML-V2.43-beckhoff-TCPNDevice-20230627.xml" ImagePath="C:\TwinCAT\3.1\Config\Io\Profinet\GSDML-0120-0021-TCPNDevice.bmp" MainFamily="I/O" ProductFamily="TwinCAT Profinet I/O" OrderNr="TwinCAT PN Device" DefaultDNSName="tcpniodevice" VendorName="Beckhoff Automation" FamDescription="TwinCAT products" GraphicFile="GSDML-0120-0021-TCPNDevice" SWVersion="V7.00" HWVersion="1" AltLanguage="7">
+			<UsedGsdmlModule ModuleIdentNumber="7" ModuleName="DAP Module" InfoText="TwinCAT PLC PROFINET I/O Device with I/Os, V2.43, PROFIenergy supported; 1 port" OrderNumber="TwinCAT PN Device">
+				<Slot>0</Slot>
+			</UsedGsdmlModule>
+			<UsedGsdmlSubModule SubModuleIdentNumber="2" SubSlotNumber="1" TypeOfSubmodule="3" Id="DAP 7" SubModuleName="TwinCAT Device V2.43, 1 Port, at least FW V7.00" InfoText="TwinCAT PLC PROFINET I/O Device with I/Os, V2.43, PROFIenergy supported; 1 port"/>
+			<API Id="1">
+				<Name>API</Name>
+				<ImageId>4</ImageId>
+				<Module Id="#x031d0001" DAP="true" ModuleIdentNumber="7" ModuleInfo="TwinCAT PLC PROFINET I/O Device with I/Os, V2.43, PROFIenergy supported; 1 port">
+					<Name>Term 1 (DAP Module)</Name>
+					<Comment><![CDATA[GSDML: GSDML-V2.43-beckhoff-TCPNDevice-20230627.xml
+Module Info: TwinCAT PLC PROFINET I/O Device with I/Os, V2.43, PROFIenergy supported; 1 port
+OrderNumber: TwinCAT PN Device]]></Comment>
+					<ImageId>182</ImageId>
+					<SubModule Id="#x031c0001" SubModuleIdentNumber="2" TypeOfSubModule="3" SubSlotNumber="1" IsFixSubmodule="true" SubModuleID="DAP 7" AddSubModFlags="2172">
+						<Name>Subterm 1 (TwinCAT Device V2.43, 1 Port, at least FW V7.00)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.43-beckhoff-TCPNDevice-20230627.xml
+Submodule Info: TwinCAT PLC PROFINET I/O Device with I/Os, V2.43, PROFIenergy supported; 1 port
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+					<SubModule Id="#x031c0002" SubModuleIdentNumber="32768" TypeOfSubModule="1" SubSlotNumber="32768" IsFixSubmodule="true" SubModuleID="IDS_7I" InterfaceData="0100000000000000000000000000000000000000000098030f00000000000000">
+						<Name>Subterm 2 (Interface)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.43-beckhoff-TCPNDevice-20230627.xml
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+					<SubModule Id="#x031c0003" SubModuleIdentNumber="32769" TypeOfSubModule="2" SubSlotNumber="32769" IsFixSubmodule="true" SubModuleID="IDS_7P" PortData="00000000000000000000000000000000000000000000000000000000">
+						<Name>Subterm 3 (Port 1)</Name>
+						<Comment><![CDATA[GSDML: GSDML-V2.43-beckhoff-TCPNDevice-20230627.xml
+]]></Comment>
+						<ImageId>183</ImageId>
+						<Vars VarGrpType="1">
+							<Name>Inputs</Name>
+						</Vars>
+						<Vars VarGrpType="2">
+							<Name>Outputs</Name>
+						</Vars>
+					</SubModule>
+				</Module>
+			</API>
+		</Profinet>
+	</Box>
+</TcSmItem>
