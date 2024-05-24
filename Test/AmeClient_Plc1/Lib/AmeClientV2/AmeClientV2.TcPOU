@@ -1,61 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="AmeClientV2" Id="{529b8c90-0428-4b25-8c94-8b2e0ce12228}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC AmeClientV2
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC AmeClientV2 EXTENDS TcpIpClt
 VAR
-	// Connection configuration var
-	_usiType			:USINT;
-	_sSrvNetId			:T_AmsNetId;
-	_sRemoteHost		:T_IPv4Addr;
-	_udiRemotePort		:UDINT;
-	_tTimeOut			:TIME;
+	_sMsgToSend			:STRING;
+	_sSeparator			:STRING(1) 	:= '|';
 	
-	_tcpIpClient	:tcpIpClient(sSrvNetId := THIS^._sSrvNetId, sRemoteHost := THIS^._sRemoteHost, udiRemotePort := THIS^._udiRemotePort, tTimeOut := THIS^._tTimeOut );
+	
+	_eFSM_SendRcvSq		:(
+						IDLE_SendRcvSq,
+						OPEN_SOCKET_SendRcvSq,
+						SEND_DATA_SendRcvSq,
+						RCV_DATA_SendRcvSq,
+						ERROR_SendRcvSq,
+						DONE_SendRcvSq);
+	_eFSM_AmeClientSq	:(
+						IDLE_AmeClientSq,
+						CREATE_MSG_TO_SEND_AmeClientSq,
+						CALL_SEND_RCV_SQ_AmeClientSq,
+						ERROR_AmeClientSq,
+						DONE_AmeClientSq);
 END_VAR
 
-VAR
-	_bOpenSocket	:BOOL;
-	_bCloseSocket	:BOOL;
-	_bSendData		:BOOL;
-	_sMsg			:STRING(5000) := 'Hola';
-	_bRcvdata		:BOOL;
+VAR CONSTANT
+	_sTYPE	:STRING(1) := '1';
 END_VAR
+
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF _bOpenSocket AND_THEN _tcpIpClient.OpenSocket() THEN
-	_bOpenSocket := FALSE;
-END_IF
-
-IF _bCloseSocket AND_THEN _tcpIpClient.CloseSocket() THEN
-	_bCloseSocket := FALSE;
-END_IF
-
-IF _bSendData AND_THEN _tcpIpClient.Send(ADR(_sMsg), f_StringLen(ADR(_sMsg), SIZEOF(_sMsg))) THEN
-	_bSendData := FALSE;
-END_IF]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="FB_init" Id="{8437a971-86c0-4ad6-ab76-68c42906b8a8}">
-      <Declaration><![CDATA[METHOD FB_init : BOOL
+    <Folder Name="Methods" Id="{c8c9bb2d-7977-0768-14dd-e91e178a5283}">
+      <Folder Name="Assy" Id="{389d31fc-68dc-01fe-2a1c-dbe65dcf8ef2}" />
+    </Folder>
+    <Method Name="AssyComplete_3011" Id="{6807f7d1-58e1-08a8-3673-e10cbe0ebcd2}" FolderPath="Methods\Assy\">
+      <Declaration><![CDATA[METHOD PUBLIC AssyComplete_3011 : BOOL
 VAR_INPUT
-	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
-	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	sSFC		:STRING;
+	eState		:E_AssyState;
+	usiOpIndex	:USINT;
+END_VAR
 
-	usiType			:USINT;
-	sSrvNetId		:T_AmsNetId;
-	sRemoteHost		:T_IPv4Addr;
-	udiRemotePort	:UDINT;
-	tTimeOut		:TIME;
+VAR
+	_sActionCall	:STRING(4) 	:= '3011';
+	_sState			:STRING(1);
+	_sOpIndex		:STRING(2);	
+	_bError			:BOOL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[THIS^._usiType			:= usiType;
-THIS^._sSrvNetId 		:= sSrvNetId;
-THIS^._sRemoteHost		:= sRemoteHost;
-THIS^._udiRemotePort	:= udiRemotePort;
-THIS^._tTimeOut			:= tTimeOut;
-IF THIS^._tTimeOut = T#0S THEN
-	THIS^._tTimeOut := DEFAULT_ADS_TIMEOUT;
-END_IF]]></ST>
+        <ST><![CDATA[CASE _eFSM_AmeClientSq OF
+	IDLE_AmeClientSq:
+		THIS^._eFSM_AmeClientSq := CREATE_MSG_TO_SEND_AmeClientSq;
+		
+	CREATE_MSG_TO_SEND_AmeClientSq:
+		_sState	:= INT_TO_STRING(eState);
+		_sOpIndex := USINT_TO_STRING(usiOpIndex);
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sTYPE),ADR(THIS^._sSeparator),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+			
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(_sActionCall),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(THIS^._sSeparator),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(sSFC),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(THIS^._sSeparator),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(_sState),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(THIS^._sSeparator),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		IF NOT _bError AND_THEN NOT f_StringConcat(ADR(THIS^._sMsgToSend),ADR(_sOpIndex),ADR(THIS^._sMsgToSend),SIZEOF(THIS^._sMsgToSend)) THEN
+			_bError := TRUE;
+		END_IF
+		
+		THIS^._eFSM_AmeClientSq := CALL_SEND_RCV_SQ_AmeClientSq;
+		IF _bError THEN
+			THIS^._eFSM_AmeClientSq := ERROR_AmeClientSq;
+		END_IF
+		
+	CALL_SEND_RCV_SQ_AmeClientSq:
+		IF SendRcvSq() THEN
+			THIS^._eFSM_AmeClientSq := DONE_AmeClientSq;
+		END_IF
+		
+		IF bError THEN
+			THIS^._eFSM_AmeClientSq := ERROR_AmeClientSq;
+		END_IF
+		
+	ERROR_AmeClientSq:
+		THIS^._eFSM_AmeClientSq := DONE_AmeClientSq;
+		
+	DONE_AmeClientSq:
+		THIS^._eFSM_AmeClientSq := IDLE_AmeClientSq;
+		AssyComplete_3011 := TRUE;		
+END_CASE
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SendRcvSq" Id="{84c70626-b073-09e2-3b1e-ecc25e81096a}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED SendRcvSq : BOOL
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE THIS^._eFSM_SendRcvSq OF
+	IDLE_SendRcvSq:
+		THIS^._eFSM_SendRcvSq := OPEN_SOCKET_SendRcvSq;
+		
+	OPEN_SOCKET_SendRcvSq:
+		IF OpenSocket() THEN
+			THIS^._eFSM_SendRcvSq := SEND_DATA_SendRcvSq;
+		END_IF
+		
+		IF bError THEN
+			THIS^._eFSM_SendRcvSq := ERROR_SendRcvSq;
+		END_IF
+		
+	SEND_DATA_SendRcvSq:
+		IF Send(ADR(_sMsgToSend), f_StringLen(ADR(_sMsgToSend), SIZEOF(_sMsgToSend))) THEN
+			THIS^._eFSM_SendRcvSq := RCV_DATA_SendRcvSq;
+		END_IF
+		
+		IF bError THEN
+			THIS^._eFSM_SendRcvSq := ERROR_SendRcvSq;
+		END_IF
+		
+	RCV_DATA_SendRcvSq:
+		THIS^._eFSM_SendRcvSq := DONE_SendRcvSq;
+		
+	ERROR_SendRcvSq:
+		// Error handling could be implemented here
+		THIS^._eFSM_SendRcvSq := DONE_SendRcvSq;
+		
+	DONE_SendRcvSq:
+		THIS^._eFSM_SendRcvSq := IDLE_SendRcvSq;
+		SendRcvSq := TRUE;		
+END_CASE]]></ST>
       </Implementation>
     </Method>
   </POU>

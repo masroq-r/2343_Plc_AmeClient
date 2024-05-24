@@ -20,13 +20,19 @@
     <CombineIds>true</CombineIds>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Lib\00_BaseLibraries\Functions\f_StringConcat.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Lib\00_BaseLibraries\Functions\f_StringLen.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\00_BaseLibraries\tcpIpClient\tcpIpClient.TcPOU">
+    <Compile Include="Lib\00_BaseLibraries\tcpIpClient\TcpIpClt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Lib\AmeClientV2\AmeClientV2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Lib\AmeClientV2\E_AssyState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Lib\AmeClient\AmeClient.TcPOU">

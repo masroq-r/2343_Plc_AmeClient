@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="tcpIpClient" Id="{70f34b90-4c2d-4c4b-a4a7-2f6660256808}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC tcpIpClient
+  <POU Name="TcpIpClt" Id="{70f34b90-4c2d-4c4b-a4a7-2f6660256808}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC TcpIpClt
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -22,21 +22,22 @@ VAR
 	_bError				:BOOL;
 	_udiErrorId			:UDINT;
 	
-	_iFSM				:(
-						IDLE,
-						OPEN_SOCKET,
-						WAIT_SOCKET_OPENED,
-						CLOSE_SOCKET,
-						WAIT_SOCKET_CLOSED,
-						SEND_DATA,
-						WAIT_DATA_SENT,
-						DONE,
-						ERROR	);
+	_eFSM_TcpIpClt		:(
+						IDLE_TcpIpClt,
+						OPEN_SOCKET_TcpIpClt,
+						WAIT_SOCKET_OPENED_TcpIpClt,
+						CLOSE_SOCKET_TcpIpClt,
+						WAIT_SOCKET_CLOSED_TcpIpClt,
+						SEND_DATA_TcpIpClt,
+						WAIT_DATA_SENT_TcpIpClt,
+						ERROR_TcpIpClt,
+						DONE_TcpIpClt);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Folder Name="Methods" Id="{0310c1b2-56a1-038b-0445-ed281ee9685d}" />
     <Folder Name="Properties" Id="{ba132d58-9218-4b28-973a-9c13e84e3a5e}" />
     <Property Name="bError" Id="{e5741abb-7b42-4d4d-a44d-03419cd9c717}" FolderPath="Properties\">
       <Declaration><![CDATA[PROPERTY PUBLIC bError : BOOL]]></Declaration>
@@ -45,55 +46,55 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[bError := This^._bError;]]></ST>
+          <ST><![CDATA[bError := THIS^._bError;]]></ST>
         </Implementation>
       </Get>
     </Property>
-    <Method Name="CloseSocket" Id="{77e54cf9-c45a-4483-89fd-b2cddd2c2fd9}">
-      <Declaration><![CDATA[METHOD PUBLIC CloseSocket : BOOL
+    <Method Name="CloseSocket" Id="{77e54cf9-c45a-4483-89fd-b2cddd2c2fd9}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED CloseSocket : BOOL
 VAR_INST
 	_bExecute	:BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE THIS^._iFSM OF
-	IDLE:
+        <ST><![CDATA[CASE THIS^._eFSM_TcpIpClt OF
+	IDLE_TcpIpClt:
 		THIS^._bError := FALSE;
 		THIS^._udiErrorId := 0;
 		
-		THIS^._iFSM := CLOSE_SOCKET;
+		THIS^._eFSM_TcpIpClt := CLOSE_SOCKET_TcpIpClt;
 		
-	CLOSE_SOCKET:
+	CLOSE_SOCKET_TcpIpClt:
 		_bExecute := TRUE;
 		
 		IF THIS^._CloseSocket.bBusy THEN
-			THIS^._iFSM := WAIT_SOCKET_CLOSED;
+			THIS^._eFSM_TcpIpClt := WAIT_SOCKET_CLOSED_TcpIpClt;
 			
 		END_IF
 	
-	WAIT_SOCKET_CLOSED:
+	WAIT_SOCKET_CLOSED_TcpIpClt:
 		_bExecute := FALSE;
 		
 		IF THIS^._CloseSocket.bError THEN
-			THIS^._iFSM := ERROR;
+			THIS^._eFSM_TcpIpClt := ERROR_TcpIpClt;
 			
 		ELSIF NOT THIS^._CloseSocket.bBusy THEN
-			THIS^._iFSM := DONE;
+			THIS^._eFSM_TcpIpClt := DONE_TcpIpClt;
 			
 		END_IF
+	
+	ERROR_TcpIpClt:
+		THIS^._bError := TRUE;
+		THIS^._udiErrorId := THIS^._OpenSocket.nErrId;
 		
-	DONE:
+		THIS^._eFSM_TcpIpClt := DONE_TcpIpClt;
+		
+	DONE_TcpIpClt:
 		//_bExecute := FALSE;
 		
 		IF NOT THIS^._CloseSocket.bExecute THEN
 			CloseSocket := TRUE;
-			THIS^._iFSM := IDLE;
+			THIS^._eFSM_TcpIpClt := IDLE_TcpIpClt;
 		END_IF
-				
-	ERROR:
-		THIS^._bError := TRUE;
-		THIS^._udiErrorId := THIS^._OpenSocket.nErrId;
-		
-		THIS^._iFSM := DONE;
 END_CASE
 
 THIS^._CloseSocket(
@@ -103,8 +104,8 @@ THIS^._CloseSocket(
 					tTimeout	:= THIS^._tTimeOut);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="ConnConfigUpd" Id="{1fe3c4e9-3fb4-4f42-88f5-fb334d59aedf}">
-      <Declaration><![CDATA[METHOD PUBLIC ConnConfigUpd : BOOL
+    <Method Name="ConnConfigUpd" Id="{1fe3c4e9-3fb4-4f42-88f5-fb334d59aedf}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED ConnConfigUpd : BOOL
 VAR_INPUT
 	sSrvNetId		:T_AmsNetId;
 	sRemoteHost		:T_IPv4Addr;
@@ -145,51 +146,51 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="OpenSocket" Id="{1132d3ee-b5b9-4379-84e8-da799c5181f6}">
-      <Declaration><![CDATA[METHOD PUBLIC OpenSocket : BOOL
+    <Method Name="OpenSocket" Id="{1132d3ee-b5b9-4379-84e8-da799c5181f6}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED OpenSocket : BOOL
 VAR_INST
 	_bExecute	:BOOL;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE THIS^._iFSM OF
-	IDLE:
+        <ST><![CDATA[CASE THIS^._eFSM_TcpIpClt OF
+	IDLE_TcpIpClt:
 		THIS^._bError := FALSE;
 		THIS^._udiErrorId := 0;
 		
-		THIS^._iFSM := OPEN_SOCKET;
+		THIS^._eFSM_TcpIpClt := OPEN_SOCKET_TcpIpClt;
 		
-	OPEN_SOCKET:
+	OPEN_SOCKET_TcpIpClt:
 		_bExecute := TRUE;
 		
 		IF THIS^._OpenSocket.bBusy THEN
-			THIS^._iFSM := WAIT_SOCKET_OPENED;
+			THIS^._eFSM_TcpIpClt := WAIT_SOCKET_OPENED_TcpIpClt;
 			
 		END_IF
 	
-	WAIT_SOCKET_OPENED:
+	WAIT_SOCKET_OPENED_TcpIpClt:
 		_bExecute := FALSE;
 		
 		IF THIS^._OpenSocket.bError THEN
-			THIS^._iFSM := ERROR;
+			THIS^._eFSM_TcpIpClt := ERROR_TcpIpClt;
 			
 		ELSIF NOT THIS^._OpenSocket.bBusy THEN
-			THIS^._iFSM := DONE;
+			THIS^._eFSM_TcpIpClt := DONE_TcpIpClt;
 			
 		END_IF
 		
-	DONE:
+	ERROR_TcpIpClt:
+		THIS^._bError := TRUE;
+		THIS^._udiErrorId := THIS^._OpenSocket.nErrId;
+		
+		THIS^._eFSM_TcpIpClt := DONE_TcpIpClt;
+		
+	DONE_TcpIpClt:
 		//_bExecute := FALSE;
 		
 		IF NOT THIS^._OpenSocket.bExecute THEN
 			OpenSocket := TRUE;
-			THIS^._iFSM := IDLE;
+			THIS^._eFSM_TcpIpClt := IDLE_TcpIpClt;
 		END_IF
-		
-	ERROR:
-		THIS^._bError := TRUE;
-		THIS^._udiErrorId := THIS^._OpenSocket.nErrId;
-		
-		THIS^._iFSM := DONE;
 END_CASE
 
 THIS^._OpenSocket(
@@ -201,19 +202,18 @@ THIS^._OpenSocket(
 					hSocket			=> THIS^._hSocket);]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Rcv" Id="{1fd079f6-c456-4dab-9438-826a1b0c4d66}">
-      <Declaration><![CDATA[METHOD PUBLIC Rcv : BOOL
-VAR_INPUT
-END_VAR
+    <Method Name="Rcv" Id="{1fd079f6-c456-4dab-9438-826a1b0c4d66}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED Rcv : BOOL
+
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Send" Id="{1cdba373-face-48d2-a779-a6c503e7ba34}">
-      <Declaration><![CDATA[METHOD PUBLIC Send : BOOL
+    <Method Name="Send" Id="{1cdba373-face-48d2-a779-a6c503e7ba34}" FolderPath="Methods\">
+      <Declaration><![CDATA[METHOD PROTECTED Send : BOOL
 VAR_INPUT
-	pData		:POINTER TO BYTE;
+	pData	:POINTER TO BYTE;
 	udiLen	:UDINT;
 END_VAR
 
@@ -222,45 +222,45 @@ VAR_INST
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[CASE THIS^._iFSM OF
-	IDLE:
+        <ST><![CDATA[CASE THIS^._eFSM_TcpIpClt OF
+	IDLE_TcpIpClt:
 		THIS^._bError := FALSE;
 		THIS^._udiErrorId := 0;
 		
-		THIS^._iFSM := SEND_DATA;
+		THIS^._eFSM_TcpIpClt := SEND_DATA_TcpIpClt;
 		
-	SEND_DATA:
+	SEND_DATA_TcpIpClt:
 		_bExecute := TRUE;
 		
 		IF THIS^._SendData.bBusy THEN
-			THIS^._iFSM := WAIT_DATA_SENT;
+			THIS^._eFSM_TcpIpClt := WAIT_DATA_SENT_TcpIpClt;
 			
 		END_IF
 	
-	WAIT_DATA_SENT:
+	WAIT_DATA_SENT_TcpIpClt:
 		_bExecute := FALSE;
 		
 		IF THIS^._SendData.bError THEN
-			THIS^._iFSM := ERROR;
+			THIS^._eFSM_TcpIpClt := ERROR_TcpIpClt;
 			
 		ELSIF NOT THIS^._SendData.bBusy THEN
-			THIS^._iFSM := DONE;
+			THIS^._eFSM_TcpIpClt := DONE_TcpIpClt;
 			
 		END_IF
+
+	ERROR_TcpIpClt:
+		THIS^._bError := TRUE;
+		THIS^._udiErrorId := THIS^._SendData.nErrId;
 		
-	DONE:
+		THIS^._eFSM_TcpIpClt := DONE_TcpIpClt;
+		
+	DONE_TcpIpClt:
 		//_bExecute := FALSE;
 		
 		IF NOT THIS^._SendData.bExecute THEN
 			Send := TRUE;
-			THIS^._iFSM := IDLE;
+			THIS^._eFSM_TcpIpClt := IDLE_TcpIpClt;
 		END_IF
-		
-	ERROR:
-		THIS^._bError := TRUE;
-		THIS^._udiErrorId := THIS^._SendData.nErrId;
-		
-		THIS^._iFSM := DONE;
 END_CASE
 
 THIS^._SendData(
@@ -280,7 +280,7 @@ THIS^._SendData(
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[udiErrorId := This^._udiErrorId ;]]></ST>
+          <ST><![CDATA[udiErrorId := THIS^._udiErrorId ;]]></ST>
         </Implementation>
       </Get>
     </Property>

@@ -47,8 +47,11 @@ VAR
 END_VAR
 
 VAR
-	_AmeClientV2 :AmeClientV2(usiType := 1, sSrvNetId := '', sRemoteHost := '192.168.103.17', udiRemotePort := 2001, tTimeout := DEFAULT_ADS_TIMEOUT);
+	_AmeClientV2 :AmeClientV2(sSrvNetId := '', sRemoteHost := '192.168.103.17', udiRemotePort := 2001, tTimeout := DEFAULT_ADS_TIMEOUT);
 	
+	_sSfc			:STRING;
+	_bAssyCompleate :BOOL;
+	_iCounter		:INT;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Assy GetDetails******************************************************
@@ -107,6 +110,16 @@ END_IF
 /////////////////////////////////////////////////////
 
 _AmeClientV2();
+
+IF _bAssyCompleate THEN
+	_iCounter := _iCounter + 1;
+END_IF
+
+IF _bAssyCompleate AND_THEN _AmeClientV2.AssyComplete_3011(_sSfc, E_AssyState.PASS, 1) THEN
+	_bAssyCompleate := FALSE;
+	
+END_IF
+
 
 ]]></ST>
     </Implementation>

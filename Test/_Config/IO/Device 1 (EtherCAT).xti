@@ -15,6 +15,9 @@
 		<Box File="Term 1 (EK1100).xti" Id="1">
 			<EtherCAT PortABoxInfo="#x00ffffff"/>
 		</Box>
-		<EtherCAT/>
+		<Box File="ServoControllerX (CMMT-AS-MP-S1).xti" Id="5">
+			<EtherCAT PortABoxInfo="#x02000001"/>
+		</Box>
+		<EtherCAT DcSyncMode="3" EnableVirtualSwitch="true" MaxSwitchPorts="2" MaxSwitchFrames="120"/>
 	</Device>
 </TcSmItem>
